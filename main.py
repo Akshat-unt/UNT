@@ -22,8 +22,7 @@ if "responding" not in db.keys():
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
   json_data = json.loads(response.text)
-  quote = json_data[0]['q'] + " -" + json_data[0]['a']
-  return(quote)
+  return json_data[0]['q'] + " -" + json_data[0]['a']
 
 def update_encouragements(encouraging_message):
   if "encouragements" in db.keys():
@@ -76,9 +75,7 @@ async def on_message(message):
     await message.channel.send(encouragements)
 
   if msg.startswith("$list"):
-    encouragements = []
-    if "encouragements" in db.keys():
-      encouragements = db["encouragements"]
+    encouragements = db["encouragements"] if "encouragements" in db.keys() else []
     await message.channel.send(encouragements)
 
   if msg.startswith("$responding"):
